@@ -24,6 +24,8 @@ default: &default
 development:
   <<: *default
   database: films_imdb_development
+  username: <%= Rails.application.credentials.config[:db_login] %>
+  password: <%= Rails.application.credentials.config[:db_password] %>
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -58,6 +60,8 @@ development:
 test:
   <<: *default
   database: films_imdb_test
+  username: <%= Rails.application.credentials.config[:db_login] %>
+  password: <%= Rails.application.credentials.config[:db_password] %>
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -82,5 +86,5 @@ test:
 production:
   <<: *default
   database: films_imdb_production
-  username: films_imdb
-  password: <%= ENV["FILMS_IMDB_DATABASE_PASSWORD"] %>
+  username: <%= Rails.application.credentials.config[:db_login] %>
+  password: <%= Rails.application.credentials.config[:db_password] %>
