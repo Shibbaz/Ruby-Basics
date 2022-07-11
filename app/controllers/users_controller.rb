@@ -1,9 +1,14 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[show edit update destroy]
+  attr_reader :user_repository
+
+  def initialize
+    @user_repository = Contexts::Users::Repository.new
+  end
 
   # GET /users or /users.json
   def index
-    @users = User.all
+    @users = Contexts::Users::Queries::UserQueries.new.all
   end
 
   # GET /users/1 or /users/1.json
@@ -11,7 +16,7 @@ class UsersController < ApplicationController
 
   # GET /users/new
   def new
-    @user = User.new
+    @user = @user_repository.create
   end
 
   # GET /users/1/edit
@@ -19,7 +24,7 @@ class UsersController < ApplicationController
 
   # POST /users or /users.json
   def create
-    @user = User.new(user_params)
+    @user = Contexts::Users::Commands::Create.new(@user_repository).call(params: user_params)
 
     respond_to do |format|
       if @user.save
@@ -35,7 +40,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1 or /users/1.json
   def update
     respond_to do |format|
-      if @user.update(user_params)
+      if Contexts::Users::Commands::Update.new(@user_repository).call(params: user_params)
         format.html { redirect_to user_url(@user), notice: 'User was successfully updated.' }
         format.json { render :show, status: :ok, location: @user }
       else
@@ -47,7 +52,7 @@ class UsersController < ApplicationController
 
   # DELETE /users/1 or /users/1.json
   def destroy
-    @user.destroy
+    Contexts::Users::Commands::Delete.new(@user_repository).call(@user.id)
 
     respond_to do |format|
       format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
@@ -59,11 +64,11 @@ class UsersController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_user
-    @user = User.find(params[:id])
+    @user = @user_repository.find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.
   def user_params
-    params.require(:user).permit(:email, :first_name, :last_name, :role, :password)
+    params.permit(:email, :first_name, :last_name, :role, :password)
   end
 end

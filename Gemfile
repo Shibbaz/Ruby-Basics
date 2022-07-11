@@ -79,4 +79,5 @@ group :development do
   gem 'brakeman'
 end
 
+gem 'pry', '~> 0.13.1'
 gem 'rubycritic', require: false
