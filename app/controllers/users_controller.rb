@@ -1,14 +1,10 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[show edit update destroy]
-  attr_reader :user_repository
-
-  def initialize
-    @user_repository = Contexts::Users::Repository.new
-  end
 
   # GET /users or /users.json
   def index
     @users = Contexts::Users::Queries::UserQueries.new.all
+    @users
   end
 
   # GET /users/1 or /users/1.json
@@ -16,7 +12,7 @@ class UsersController < ApplicationController
 
   # GET /users/new
   def new
-    @user = @user_repository.create
+    @user = User.create!
   end
 
   # GET /users/1/edit
@@ -24,7 +20,7 @@ class UsersController < ApplicationController
 
   # POST /users or /users.json
   def create
-    @user = Contexts::Users::Commands::Create.new(@user_repository).call(params: user_params)
+    @user = Contexts::Users::Commands::Create.new.call(params: user_params)
 
     respond_to do |format|
       if @user.save
@@ -40,7 +36,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1 or /users/1.json
   def update
     respond_to do |format|
-      if Contexts::Users::Commands::Update.new(@user_repository).call(params: user_params)
+      if Contexts::Users::Commands::Update.new.call(params: user_params)
         format.html { redirect_to user_url(@user), notice: 'User was successfully updated.' }
         format.json { render :show, status: :ok, location: @user }
       else
@@ -52,7 +48,7 @@ class UsersController < ApplicationController
 
   # DELETE /users/1 or /users/1.json
   def destroy
-    Contexts::Users::Commands::Delete.new(@user_repository).call(@user.id)
+    Contexts::Users::Commands::Delete.new.call(@user.id)
 
     respond_to do |format|
       format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
@@ -64,7 +60,7 @@ class UsersController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_user
-    @user = @user_repository.find(params[:id])
+    @user = User.find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.

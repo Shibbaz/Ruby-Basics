@@ -4,7 +4,7 @@ module Contexts
       class Create
         attr_reader :repository
 
-        def initialize(repository)
+        def initialize(repository = Movie)
           @repository = repository
         end
 
