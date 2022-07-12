@@ -15,7 +15,7 @@ ActiveRecord::Schema[7.0].define(version: 20_220_711_071_211) do
   enable_extension 'plpgsql'
 
   create_table 'movies', force: :cascade do |t|
-    t.string 'imdb_id'
+    t.integer 'imdb_id'
     t.string 'title'
     t.decimal 'rating'
     t.integer 'rank'
