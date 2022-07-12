@@ -30,7 +30,7 @@ ActiveRecord::Schema[7.0].define(version: 20_220_711_071_211) do
     t.string 'first_name'
     t.string 'last_name'
     t.string 'role'
-    t.string 'password'
+    t.string 'password_digest'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
   end
