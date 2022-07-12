@@ -15,8 +15,8 @@ ActiveRecord::Schema[7.0].define(version: 20_220_711_071_211) do
   enable_extension 'plpgsql'
 
   create_table 'movies', force: :cascade do |t|
-    t.text 'imdb_id'
-    t.text 'title'
+    t.string 'imdb_id'
+    t.string 'title'
     t.decimal 'rating'
     t.integer 'rank'
     t.integer 'year'
@@ -26,11 +26,11 @@ ActiveRecord::Schema[7.0].define(version: 20_220_711_071_211) do
   end
 
   create_table 'users', force: :cascade do |t|
-    t.text 'email'
-    t.text 'first_name'
-    t.text 'last_name'
-    t.text 'role'
-    t.text 'password'
+    t.string 'email'
+    t.string 'first_name'
+    t.string 'last_name'
+    t.string 'role'
+    t.string 'password'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
   end
