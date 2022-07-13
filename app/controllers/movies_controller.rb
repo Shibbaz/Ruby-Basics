@@ -23,7 +23,7 @@ class MoviesController < ApplicationController
     @movie = Contexts::Movies::Commands::Create.new.call(params: movie_params)
 
     respond_to do |format|
-      if @movie.save
+      if @movie.errors.size.equal? 0
         format.html { redirect_to movie_url(@movie), notice: 'Movie was successfully created.' }
         format.json { render :show, status: :created, location: @movie }
       else
@@ -61,7 +61,6 @@ class MoviesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_movie
     @movie = Contexts::Movies::Queries::MovieQueries.new.find_by({id: params[:id]})
-    @movie = Movie.find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.

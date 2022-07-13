@@ -22,7 +22,7 @@ class UsersController < ApplicationController
     @user = Contexts::Users::Commands::Create.new.call(params: user_params)
 
     respond_to do |format|
-      if @user.save
+      if @user.errors.size.equal? 0
         format.html { redirect_to user_url(@user), notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
       else
