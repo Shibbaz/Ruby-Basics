@@ -13,13 +13,9 @@ module Contexts
           movies
         end
 
-        def find_by(params)
-          movies.find_by(params)
-        end
+        delegate :find_by, to: :movies
 
-        def where(params)
-          movies.where(params)
-        end
+        delegate :where, to: :movies
 
         def by_year(order)
           movies.order(year: order)

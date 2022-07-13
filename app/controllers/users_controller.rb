@@ -3,7 +3,12 @@ class UsersController < ApplicationController
 
   # GET /users or /users.json
   def index
-    Contexts::Users::Queries::UserQueries.new.all
+    begin
+      @users = Contexts::Users::Queries::UserQueries.new.all
+    rescue ActiveRecord::CatchAll
+      render :json => "records not found"
+    end
+    render json: @users
   end
 
   # GET /users/1 or /users/1.json
@@ -19,15 +24,15 @@ class UsersController < ApplicationController
 
   # POST /users or /users.json
   def create
-    @user = Contexts::Users::Commands::Create.new.call(params: user_params)
-
     respond_to do |format|
-      if @user.errors.size.equal? 0
-        format.html { redirect_to user_url(@user), notice: 'User was successfully created.' }
-        format.json { render :show, status: :created, location: @user }
-      else
+      begin
+        @user = Contexts::Users::Commands::Create.new.call(params: user_params)
+      rescue ActiveRecord::CatchAll
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @user.errors, status: :unprocessable_entity }
+      end      
+      format.html { redirect_to movie_url(@user), notice: 'User was successfully created.' }
+      format.json { render :show, status: :created, location: @user }
       end
     end
   end
@@ -35,22 +40,28 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1 or /users/1.json
   def update
     respond_to do |format|
-      if Contexts::Users::Commands::Update.new.call(params: user_params)
-        format.html { redirect_to user_url(@user), notice: 'User was successfully updated.' }
-        format.json { render :show, status: :ok, location: @user }
-      else
+      begin
+        Contexts::Users::Commands::Update.new.call(params: user_params)
+      rescue ActiveRecord::CatchAll
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+        format.html { redirect_to movie_url(@user), notice: 'User was successfully updated.' }
+        format.json { render :show, status: :ok, location: @user }
       end
     end
   end
 
   # DELETE /users/1 or /users/1.json
   def destroy
-    Contexts::Users::Commands::Delete.new.call(@user.id)
+    respond_to do |format|
+    begin
+      Contexts::Users::Commands::Delete.new.call(@user.id)
+    rescue ActiveRecord::CatchAll
+    end
 
     respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+      format.html { redirect_to movies_url, notice: 'User was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -59,7 +70,10 @@ class UsersController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_user
-    @user = Contexts::Users::Queries::UserQueries.new.find_by({id: params[:id]})
+    begin
+      @user = Contexts::Users::Queries::MovieQueries.new.find_by({id: params[:id]})
+    rescue ActiveRecord::CatchAll
+    end
   end
 
   # Only allow a list of trusted parameters through.
