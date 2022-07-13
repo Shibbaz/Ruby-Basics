@@ -1,16 +1,16 @@
 module Contexts
   module Users
     module Commands
-      class Update
+      class Delete
         attr_reader :repository
 
         def initialize(repository = User)
           @repository = repository
         end
 
-        def call(params)
-          repository.find(params[:id])
-          repository.update(params)
+        def call(id)
+          repository.find(id)
+          repository.delete_by(id:)
         end
       end
     end
