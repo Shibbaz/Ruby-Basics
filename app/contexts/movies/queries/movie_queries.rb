@@ -14,7 +14,7 @@ module Contexts
         end
 
         def find_by(params)
-          @movies.find_by(params)
+          movies.find_by(params)
         end
 
         def where(params)
