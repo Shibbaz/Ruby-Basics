@@ -14,15 +14,15 @@ module Contexts
         end
 
         def find_by(params)
-          @users.find_by(params)
+          users.find_by(params)
         end
 
         def where(params)
-          @users.where(params)
+          users.where(params)
         end
 
         def by_role(order)
-          @users.order(role: order)
+          users.order(role: order)
         end
       end
     end

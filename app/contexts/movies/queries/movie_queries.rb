@@ -10,7 +10,7 @@ module Contexts
         end
 
         def all
-          @movies
+          movies
         end
 
         def find_by(params)
@@ -18,15 +18,15 @@ module Contexts
         end
 
         def where(params)
-          @movies.where(params)
+          movies.where(params)
         end
 
         def by_year(order)
-          @movies.order(year: order)
+          movies.order(year: order)
         end
 
         def by_rank(rank)
-          @movies.order(rank:)
+          movies.order(rank:)
         end
       end
     end
