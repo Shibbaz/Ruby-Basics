@@ -60,6 +60,7 @@ class MoviesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_movie
+    @movie = Contexts::Movies::Queries::MovieQueries.new.find_by({id: params[:id]})
     @movie = Movie.find(params[:id])
   end
 
