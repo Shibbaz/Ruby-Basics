@@ -10,7 +10,7 @@ module Contexts
         end
 
         def all
-          @users
+          users
         end
 
         def find_by(params)
