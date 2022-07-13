@@ -9,6 +9,7 @@ module Contexts
         end
 
         def call(params)
+          repository.find(params[:id])
           repository.update(params)
         end
       end
