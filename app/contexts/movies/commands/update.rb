@@ -9,6 +9,7 @@ module Contexts
         end
 
         def call(params)
+          Movie.find(params[:id])
           repository.update(params)
         end
       end

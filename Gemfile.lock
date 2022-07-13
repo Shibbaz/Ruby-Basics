@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/faker-ruby/faker.git
+  revision: e36fb2bc4a75d8eb1116a6514c356c2bcf951538
+  branch: master
+  specs:
+    faker (2.21.0)
+      i18n (>= 1.8.11, < 2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -99,6 +107,7 @@ GEM
       reline (>= 0.2.7)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
+    diff-lcs (1.5.0)
     digest (3.1.0)
     docile (1.4.0)
     equalizer (0.0.11)
@@ -214,6 +223,27 @@ GEM
     reline (0.3.1)
       io-console (~> 0.5)
     rexml (3.2.5)
+    rspec (3.11.0)
+      rspec-core (~> 3.11.0)
+      rspec-expectations (~> 3.11.0)
+      rspec-mocks (~> 3.11.0)
+    rspec-core (3.11.0)
+      rspec-support (~> 3.11.0)
+    rspec-expectations (3.11.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.11.0)
+    rspec-mocks (3.11.1)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.11.0)
+    rspec-rails (6.0.0.rc1)
+      actionpack (>= 6.1)
+      activesupport (>= 6.1)
+      railties (>= 6.1)
+      rspec-core (~> 3.11)
+      rspec-expectations (~> 3.11)
+      rspec-mocks (~> 3.11)
+      rspec-support (~> 3.11)
+    rspec-support (3.11.0)
     ruby_parser (3.19.1)
       sexp_processor (~> 4.16)
     rubycritic (4.7.0)
@@ -293,12 +323,16 @@ DEPENDENCIES
   capybara
   debug
   factory_bot_rails
+  faker!
   importmap-rails
   jbuilder
   pg (~> 1.1)
   pry (~> 0.13.1)
   puma (~> 5.0)
   rails (~> 7.0.3)
+  rspec
+  rspec-core
+  rspec-rails (~> 6.0.0.rc1)
   rubycritic
   selenium-webdriver
   sprockets-rails

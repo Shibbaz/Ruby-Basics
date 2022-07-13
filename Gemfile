@@ -73,6 +73,8 @@ end
 
 group :development, :test do
   gem 'factory_bot_rails'
+  gem 'rspec-rails', '~> 6.0.0.rc1'
+
 end
 
 group :development do
@@ -81,3 +83,6 @@ end
 
 gem 'pry', '~> 0.13.1'
 gem 'rubycritic', require: false
+gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
+gem 'rspec-core'
+gem 'rspec'
