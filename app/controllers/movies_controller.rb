@@ -55,10 +55,7 @@ class MoviesController < ApplicationController
   # DELETE /movies/1 or /movies/1.json
   def destroy
     respond_to do |format|
-      begin
-        Contexts::Movies::Commands::Delete.new.call(@movie.id)
-      rescue ActiveRecord::CatchAll
-      end
+      Contexts::Movies::Commands::Delete.new.call(@movie.id)
       format.html { redirect_to movies_url, notice: 'Movie was successfully destroyed.' }
       format.json { head :no_content }
     end
@@ -68,10 +65,7 @@ class MoviesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_movie
-    begin
-      @movie = Contexts::Movies::Queries::MovieQueries.new.find_by({id: params[:id]})
-    rescue ActiveRecord::CatchAll
-    end
+    @movie = Contexts::Movies::Queries::MovieQueries.new.find_by({id: params[:id]})
   end
 
   # Only allow a list of trusted parameters through.
