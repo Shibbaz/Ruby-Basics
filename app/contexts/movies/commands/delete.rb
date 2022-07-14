@@ -9,8 +9,7 @@ module Contexts
         end
 
         def call(id)
-          repository.find(id)
-          repository.delete_by(id:)
+          repository.destroy(id)
         end
       end
     end

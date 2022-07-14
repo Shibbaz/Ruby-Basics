@@ -3,8 +3,12 @@ class MoviesController < ApplicationController
 
   # GET /movies or /movies.json
   def index
-    @movies = Contexts::Movies::Queries::MovieQueries.new.all
-    @movies
+    begin
+      @movies = Contexts::Movies::Queries::MovieQueries.new.all
+    rescue ActiveRecord::CatchAll
+      render :json => "records not found"
+    end
+    render json: @movies
   end
 
   # GET /movies/1 or /movies/1.json
@@ -20,15 +24,15 @@ class MoviesController < ApplicationController
 
   # POST /movies or /movies.json
   def create
-    @movie = Contexts::Movies::Commands::Create.new.call(params: movie_params)
-
     respond_to do |format|
-      if @movie.save
-        format.html { redirect_to movie_url(@movie), notice: 'Movie was successfully created.' }
-        format.json { render :show, status: :created, location: @movie }
-      else
+      begin
+        @movie = Contexts::Movies::Commands::Create.new.call(params: movie_params)
+      rescue ActiveRecord::CatchAll
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @movie.errors, status: :unprocessable_entity }
+      end      
+      format.html { redirect_to movie_url(@movie), notice: 'Movie was successfully created.' }
+      format.json { render :show, status: :created, location: @movie }
       end
     end
   end
@@ -36,19 +40,25 @@ class MoviesController < ApplicationController
   # PATCH/PUT /movies/1 or /movies/1.json
   def update
     respond_to do |format|
-      if Contexts::Movies::Commands::Update.new.call(params: movie_params)
-        format.html { redirect_to movie_url(@movie), notice: 'Movie was successfully updated.' }
-        format.json { render :show, status: :ok, location: @movie }
-      else
+      begin
+        Contexts::Movies::Commands::Update.new.call(params: movie_params)
+      rescue ActiveRecord::CatchAll
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @movie.errors, status: :unprocessable_entity }
+      end
+        format.html { redirect_to movie_url(@movie), notice: 'Movie was successfully updated.' }
+        format.json { render :show, status: :ok, location: @movie }
       end
     end
   end
 
   # DELETE /movies/1 or /movies/1.json
   def destroy
-    Contexts::Movies::Commands::Delete.new.call(@movie.id)
+    respond_to do |format|
+    begin
+      Contexts::Movies::Commands::Delete.new.call(@movie.id)
+    rescue ActiveRecord::CatchAll
+    end
 
     respond_to do |format|
       format.html { redirect_to movies_url, notice: 'Movie was successfully destroyed.' }
@@ -60,7 +70,10 @@ class MoviesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_movie
-    @movie = Movie.find(params[:id])
+    begin
+      @movie = Contexts::Movies::Queries::MovieQueries.new.find_by({id: params[:id]})
+    rescue ActiveRecord::CatchAll
+    end
   end
 
   # Only allow a list of trusted parameters through.

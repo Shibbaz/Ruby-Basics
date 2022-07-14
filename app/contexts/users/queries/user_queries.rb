@@ -10,19 +10,15 @@ module Contexts
         end
 
         def all
-          @users
+          users
         end
 
-        def find_by(params)
-          @users.find_by(params)
-        end
+        delegate :find_by, to: :users
 
-        def where(params)
-          @users.where(params)
-        end
+        delegate :where, to: :users
 
         def by_role(order)
-          @users.order(role: order)
+          users.order(role: order)
         end
       end
     end

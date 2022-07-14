@@ -1,24 +1,26 @@
-require "rails_helper"
-require "faker"
+require 'rails_helper'
+require 'faker'
 
 RSpec.describe Contexts::Users::Commands::Create do
-
-  context "when method Contexts::Users::Commands::Create is used" do
-    before do
+  describe 'when method Contexts::Users::Commands::Create is used' do
+    context '#call' do
+      before do
         create(:user)
-    end
-    let(:params){
+      end
+      let(:params) do
         {
-            first_name: Faker::Name.name,
-            last_name: Faker::Name.name,
-            email: Faker::Internet.email ,
-            role: "Software Engineer",
-            password_digest: Faker::Internet.password
+          first_name: Faker::Name.name,
+          last_name: Faker::Name.name,
+          email: Faker::Internet.email,
+          role: 'Software Engineer',
+          password_digest: Faker::Internet.password
         }
-    }
-
-    it "creates record" do
-        Contexts::Users::Commands::Create.new.call(params:)
+      end
+      context 'when valid params' do
+        it 'creates record' do
+          Contexts::Users::Commands::Create.new.call(params:)
+        end
+      end
     end
   end
 end

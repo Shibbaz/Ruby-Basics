@@ -1,4 +1,4 @@
-require "faker"
+require 'faker'
 FactoryBot.define do
   factory :movie do
     imdb_id { Faker::Number.number(digits: 2) }
