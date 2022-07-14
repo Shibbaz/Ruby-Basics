@@ -4,9 +4,7 @@ require "faker"
 RSpec.describe Contexts::Movies::Commands::Create do
 
   context "when method Contexts::Movies::Commands::Create is used" do
-    before do
-        create(:movie)
-    end
+    before { create(:movie) }
     subject(:commands){described_class.new}
     let(:params) do
         {    
