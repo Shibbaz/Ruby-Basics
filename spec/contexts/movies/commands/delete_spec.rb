@@ -4,9 +4,8 @@ require 'faker'
 RSpec.describe Contexts::Movies::Commands::Delete do
   describe '#call' do
     before do
-      2.times do
-        create(:movie)
-      end
+      create(:movie)
+      create(:movie)
     end
 
     subject(:command) do
