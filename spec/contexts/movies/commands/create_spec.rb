@@ -8,7 +8,7 @@ RSpec.describe Contexts::Movies::Commands::Create do
         create(:movie)
     end
     subject(:commands){described_class.new}
-    let(:params){
+    let(:params) do
         {    
             imdb_id: Faker::Number.number(digits: 2),
             title: Faker::Name.name,
@@ -17,7 +17,7 @@ RSpec.describe Contexts::Movies::Commands::Create do
             year: Faker::Number.number(digits: 4),
             data: nil
         }
-    }
+    end
 
     it "creates record" do
         Contexts::Movies::Commands::Create.new.call(params:)
