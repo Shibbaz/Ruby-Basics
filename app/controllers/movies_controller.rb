@@ -55,12 +55,10 @@ class MoviesController < ApplicationController
   # DELETE /movies/1 or /movies/1.json
   def destroy
     respond_to do |format|
-    begin
-      Contexts::Movies::Commands::Delete.new.call(@movie.id)
-    rescue ActiveRecord::CatchAll
-    end
-
-    respond_to do |format|
+      begin
+        Contexts::Movies::Commands::Delete.new.call(@movie.id)
+      rescue ActiveRecord::CatchAll
+      end
       format.html { redirect_to movies_url, notice: 'Movie was successfully destroyed.' }
       format.json { head :no_content }
     end
