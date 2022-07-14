@@ -54,11 +54,7 @@ class UsersController < ApplicationController
 
   # DELETE /users/1 or /users/1.json
   def destroy
-    respond_to do |format|
-    begin
-      Contexts::Users::Commands::Delete.new.call(@user.id)
-    rescue ActiveRecord::CatchAll
-    end
+    Contexts::Users::Commands::Delete.new.call(@user.id)
 
     respond_to do |format|
       format.html { redirect_to movies_url, notice: 'User was successfully destroyed.' }
@@ -70,10 +66,7 @@ class UsersController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_user
-    begin
-      @user = Contexts::Users::Queries::MovieQueries.new.find_by({id: params[:id]})
-    rescue ActiveRecord::CatchAll
-    end
+    @user = Contexts::Users::Queries::MovieQueries.new.find_by({id: params[:id]})
   end
 
   # Only allow a list of trusted parameters through.
