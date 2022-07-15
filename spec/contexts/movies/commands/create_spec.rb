@@ -3,10 +3,12 @@ require 'faker'
 
 RSpec.describe Contexts::Movies::Commands::Create do
   describe '#call' do
+    subject(:command) { described_class.new }
+
     before do
       create(:movie)
     end
-    subject(:command) { described_class.new }
+
     let(:params) do
       {
         imdb_id: Faker::Number.number(digits: 2),
@@ -17,6 +19,7 @@ RSpec.describe Contexts::Movies::Commands::Create do
         data: nil
       }
     end
+
     context 'when valid params' do
       it 'creates record' do
         command.call(params:)

@@ -3,12 +3,14 @@ require 'faker'
 
 RSpec.describe Contexts::Users::Commands::Create do
   describe '#call' do
-    before do
-      create(:user)
-    end
     subject(:command) do
       described_class.new
     end
+
+    before do
+      create(:user)
+    end
+
     let(:params) do
       {
         first_name: Faker::Name.name,
@@ -18,6 +20,7 @@ RSpec.describe Contexts::Users::Commands::Create do
         password_digest: Faker::Internet.password
       }
     end
+
     context 'when valid params' do
       it 'creates record' do
         command.call(params:)

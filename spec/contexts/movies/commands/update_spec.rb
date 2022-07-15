@@ -3,13 +3,14 @@ require 'faker'
 
 RSpec.describe Contexts::Movies::Commands::Update do
   describe '#call' do
+    subject(:command) do
+      described_class.new
+    end
+
     before do
       create(:movie)
     end
 
-    subject(:command) do
-      described_class.new
-    end
     let(:first_movie) { Movie.first }
     let(:params) do
       {
@@ -32,6 +33,7 @@ RSpec.describe Contexts::Movies::Commands::Update do
         expect(new_year).not_to eq(old_year)
       end
     end
+
     context 'when params not valid' do
       it 'fails updating record' do
         old_year = params[:year]

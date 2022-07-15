@@ -3,13 +3,15 @@ require 'faker'
 
 RSpec.describe Contexts::Users::Commands::Update do
   describe '#call' do
+    subject(:command) do
+      described_class.new
+    end
+
     before do
       create(:user)
     end
+
     let(:first_user) { User.first }
-    subject(:command)  do
-      described_class.new
-    end
     let(:params) do
       {
         id: first_user.id,
@@ -19,6 +21,7 @@ RSpec.describe Contexts::Users::Commands::Update do
         role: 'Software Engineer'
       }
     end
+
     context 'when valid params' do
       it 'updates user' do
         old_year = params[:year]

@@ -1,2 +1,4 @@
 require:
   - rubocop-rails
+  - rubocop-rspec
+
