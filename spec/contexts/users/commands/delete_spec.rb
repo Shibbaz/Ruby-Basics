@@ -3,21 +3,16 @@ require 'faker'
 
 RSpec.describe Contexts::Users::Commands::Delete do
   describe '#call' do
-    subject(:command) do
-      described_class.new
-    end
+    subject(:command) { described_class.new }
 
-    before do
-      create_list(:user, 2)
-    end
+    before { create_list(:user, 2) }
 
     context 'when valid params' do
       it 'deletes user' do
-        id = User.first.id
-        old_size = User.all.size
-        command.call(id)
-        new_size = User.all.size
-        expect(new_size).to eq(old_size - 1)
+        user = User.first
+        user_name = user.first_name
+        command.call(user.id)
+        expect(User.exists?(first_name: user_name)).to eq(false)
       end
     end
 

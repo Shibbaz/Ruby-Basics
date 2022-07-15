@@ -7,9 +7,7 @@ RSpec.describe Contexts::Users::Commands::Create do
       described_class.new
     end
 
-    before do
-      create(:user)
-    end
+    before { create(:user) }
 
     let(:params) do
       {

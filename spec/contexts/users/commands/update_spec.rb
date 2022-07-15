@@ -3,13 +3,9 @@ require 'faker'
 
 RSpec.describe Contexts::Users::Commands::Update do
   describe '#call' do
-    subject(:command) do
-      described_class.new
-    end
+    subject(:command) { described_class.new }
 
-    before do
-      create(:user)
-    end
+    before { create(:user) }
 
     let(:first_user) { User.first }
     let(:params) do

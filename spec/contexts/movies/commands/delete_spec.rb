@@ -3,19 +3,16 @@ require 'faker'
 
 RSpec.describe Contexts::Movies::Commands::Delete do
   describe '#call' do
-    subject(:command) do
-      described_class.new
-    end
+    subject(:command) { described_class.new }
 
     before { create_list(:movie, 2) }
 
     context 'when valid params' do
       it 'deletes the record' do
-        id = Movie.first.id
-        old_size = Movie.all.size
-        command.call(id)
-        new_size = Movie.all.size
-        expect(new_size).to eq(old_size - 1)
+        movie = Movie.first
+        movie_title = movie.title
+        command.call(movie.id)
+        expect(Movie.exists?(title: movie_title)).to eq(false)
       end
     end
 
