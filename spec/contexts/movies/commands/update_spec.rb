@@ -5,9 +5,7 @@ RSpec.describe Contexts::Movies::Commands::Update do
   describe '#call' do
     subject(:command) { described_class.new }
 
-    before { create(:movie) }
-
-    let(:first_movie) { Movie.first }
+    let(:first_movie) { create(:movie) }
     let(:params) do
       {
         id: first_movie.id,
