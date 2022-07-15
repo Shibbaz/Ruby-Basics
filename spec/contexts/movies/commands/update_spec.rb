@@ -7,9 +7,7 @@ RSpec.describe Contexts::Movies::Commands::Update do
       described_class.new
     end
 
-    before do
-      create(:movie)
-    end
+    before { create(:movie) }
 
     let(:first_movie) { Movie.first }
     let(:params) do
