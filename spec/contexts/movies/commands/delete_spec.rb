@@ -3,6 +3,14 @@ require 'faker'
 
 RSpec.describe Contexts::Movies::Commands::Delete do
   describe '#call' do
+<<<<<<< HEAD
+=======
+    before do
+      create(:movie)
+      create(:movie)
+    end
+
+>>>>>>> 0e76163f90506d8433de5d519186a5a8333cb86f
     subject(:command) do
       described_class.new
     end
