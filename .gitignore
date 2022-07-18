@@ -34,5 +34,4 @@
 /config/credentials/test.key
 
 # Ignore coverage folder
-/coverare/*
-
+coverage

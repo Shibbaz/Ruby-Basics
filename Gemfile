@@ -87,3 +87,4 @@ gem 'rspec-core'
 gem 'rubocop-rails', require: false
 gem 'rubocop-rspec', require: false
 gem 'rubycritic', require: false
+gem 'simplecov', require: false, group: :test
