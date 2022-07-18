@@ -3,12 +3,16 @@ class UsersController < ApplicationController
 
   # GET /users or /users.json
   def index
-    begin
-      @users = Contexts::Users::Queries::UserQueries.new.all
-    rescue ActiveRecord::CatchAll
-      render json: 'records not found'
+    respond_to do |format|
+      begin
+        @users = Contexts::Users::Queries::UserQueries.new.all(page: params[:page])
+      rescue ActiveRecord::CatchAll
+        format.json { render json: @users.errors, status: :unprocessable_entity }
+        format.html { render :index, status: :unprocessable_entity }
+      end
+      format.html { render :index }
+      format.json { render json: @users }
     end
-    render json: @users
   end
 
   # GET /users/1 or /users/1.json

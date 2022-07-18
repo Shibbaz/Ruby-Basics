@@ -1,14 +1,24 @@
-<p style="color: green"><%= notice %></p>
 
-<h1>Users</h1>
-
-<div id="users">
-  <% @users.each do |user| %>
-    <%= render user %>
-    <p>
-      <%= link_to "Show this user", user %>
-    </p>
-  <% end %>
-</div>
-
-<%= link_to "New user", new_user_path %>
+<p id="notice"><%= notice %></p>
+<h1>Listing Users</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th colspan=""></th>
+    </tr>
+  </thead>
+ <tbody>
+ <%= will_paginate @users %>
+   <% @users.each do |user| %>
+     <tr>
+       <td><%= user.first_name %></td>
+       <td><%= link_to 'Show', user %></td>
+       <td><%= link_to 'Edit', edit_user_path(user) %></td>
+       <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+     </tr>
+   <% end %>
+ </tbody>
+</table>
+<br>
+<%= link_to 'New Movie', new_movie_path %>

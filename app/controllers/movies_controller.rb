@@ -3,12 +3,16 @@ class MoviesController < ApplicationController
 
   # GET /movies or /movies.json
   def index
-    begin
-      @movies = Contexts::Movies::Queries::MovieQueries.new.all
-    rescue ActiveRecord::CatchAll
-      render json: 'records not found'
+    respond_to do |format|
+      begin
+        @movies = Contexts::Movies::Queries::MovieQueries.new.all(page: params[:page])
+      rescue ActiveRecord::CatchAll
+        format.json { render json: @movies.errors, status: :unprocessable_entity }
+        format.html { render :index, status: :unprocessable_entity }
+      end
+      format.html { render :index }
+      format.json { render json: @movies }
     end
-    render json: @movies
   end
 
   # GET /movies/1 or /movies/1.json

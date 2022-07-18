@@ -9,8 +9,8 @@ module Contexts
           @movies = movies
         end
 
-        def all
-          movies
+        def all(page:)
+          movies.paginate(page:)
         end
 
         delegate :find_by, to: :movies
