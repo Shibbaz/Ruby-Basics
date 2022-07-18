@@ -8,23 +8,12 @@ RSpec.describe Contexts::Users::Commands::Update do
     before { create(:user) }
 
     let(:first_user) { User.first }
-    let(:params) do
-      {
-        id: first_user.id,
-        first_name: Faker::Name.name,
-        last_name: Faker::Name.name,
-        email: first_user.email,
-        role: 'Software Engineer'
-      }
-    end
+    let(:params) { { id: first_user.id, first_name: 'test' } }
 
     context 'when valid params' do
       it 'updates user' do
-        old_year = params[:year]
-        params[:first_name] = 1998
         command.call(params)
-        new_year = User.first.first_name
-        expect(new_year).not_to eq(old_year)
+        expect(first_user.reload.first_name).to eq('test')
       end
     end
 
