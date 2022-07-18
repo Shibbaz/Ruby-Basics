@@ -5,9 +5,7 @@ RSpec.describe Contexts::Movies::Commands::Create do
   describe '#call' do
     subject(:command) { described_class.new }
 
-    before do
-      create(:movie)
-    end
+    before { create(:movie) }
 
     let(:params) do
       {
@@ -22,7 +20,8 @@ RSpec.describe Contexts::Movies::Commands::Create do
 
     context 'when valid params' do
       it 'creates record' do
-        command.call(params:)
+        movie = command.call(params:)
+        expect(Movie.exists?(title: movie.title)).to eq(true)
       end
     end
   end

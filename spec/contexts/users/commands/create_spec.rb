@@ -21,7 +21,8 @@ RSpec.describe Contexts::Users::Commands::Create do
 
     context 'when valid params' do
       it 'creates record' do
-        command.call(params:)
+        user = command.call(params:)
+        expect(User.exists?(first_name: user.first_name)).to eq(true)
       end
     end
   end
