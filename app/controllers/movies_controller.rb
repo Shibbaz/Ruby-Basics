@@ -48,12 +48,14 @@ class MoviesController < ApplicationController
   # DELETE /movies/1 or /movies/1.json
   def destroy
     respond_to do |format|
-      @movie = Contexts::Movies::Commands::Delete.new.call(@movie.id)
+      @movie = Contexts::Movies::Commands::Delete.new.call(params[:id])
       format.html { redirect_to movies_url, notice: 'Movie was successfully destroyed.' }
       format.json { head :no_content }
     rescue ActiveRecord::RecordNotFound
       format.html { render :new, status: :unprocessable_entity }
-      format.json { render json: @movie.errors, status: :unprocessable_entity }
+      format.json do
+        render json: { message: 'Cannot delete, such record already does not exist' }, status: :unprocessable_entity
+      end
     end
   end
 

@@ -29,7 +29,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       @user = Contexts::Users::Commands::Create.new.call(params: user_params)
       format.html { redirect_to user_url(@user), notice: 'User was successfully created.' }
-      format.json { render :show, status: :created, location: @user }
+      format.json { render json: @user, status: :created, location: @user }
     rescue ActiveRecord::RecordInvalid
       format.html { render :new, status: :unprocessable_entity }
       format.json { render json: @user.errors, status: :unprocessable_entity }
@@ -40,8 +40,8 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       @user = Contexts::Users::Commands::Update.new.call(params: user_params)
-      format.html { redirect_to user_url(@user), notice: 'User was successfully updated.' }
-      format.json { render :show, status: :ok, location: @user }
+      format.html { redirect_to users_url(@user), notice: 'User was successfully updated.' }
+      format.json { render json: @user, status: :ok, location: @user }
     rescue ActiveRecord::RecordNotFound
       format.html { render :new, status: :unprocessable_entity }
       format.json { render json: @user.errors, status: :unprocessable_entity }
@@ -51,12 +51,12 @@ class UsersController < ApplicationController
   # DELETE /users/1 or /users/1.json
   def destroy
     respond_to do |format|
-      @user = Contexts::Users::Commands::Delete.new.call(@user.id)
+      @user = Contexts::Users::Commands::Delete.new.call(params[:id].to_i)
       format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
       format.json { head :no_content }
     rescue ActiveRecord::RecordNotFound
       format.html { render :new, status: :unprocessable_entity }
-      format.json { render json: @user.errors, status: :unprocessable_entity }
+      format.json { render json: { "message": 'None user was deleted' }, status: :unprocessable_entity }
     end
   end
 
