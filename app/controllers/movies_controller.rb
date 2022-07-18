@@ -3,12 +3,11 @@ class MoviesController < ApplicationController
 
   # GET /movies or /movies.json
   def index
-    begin
+    respond_to do |format|
       @movies = Contexts::Movies::Queries::MovieQueries.new.all
-    rescue ActiveRecord::CatchAll
-      render json: 'records not found'
+      format.html { render :index }
+      format.json { render json: @movies }
     end
-    render json: @movies
   end
 
   # GET /movies/1 or /movies/1.json
@@ -26,13 +25,11 @@ class MoviesController < ApplicationController
   def create
     respond_to do |format|
       @movie = Contexts::Movies::Commands::Create.new.call(params: movie_params)
-      if @movie.errors.size > 0
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @movie.errors, status: :unprocessable_entity }
-      else
-        format.html { redirect_to movie_url(@movie), notice: 'Movie was successfully created.' }
-        format.json { render :show, status: :created, location: @movie }
-      end
+      format.html { redirect_to movie_url(@movie), notice: 'Movie was successfully created.' }
+      format.json { render :show, status: :created, location: @movie }
+    rescue ActiveRecord::RecordInvalid
+      format.html { render :new, status: :unprocessable_entity }
+      format.json { render json: @movie.errors, status: :unprocessable_entity }
     end
   end
 
@@ -40,13 +37,11 @@ class MoviesController < ApplicationController
   def update
     respond_to do |format|
       @movie = Contexts::Movies::Commands::Update.new.call(params: movie_params)
-      if @movie.errors.size > 0
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @movie.errors, status: :unprocessable_entity }
-      else
-        format.html { redirect_to movie_url(@movie), notice: 'Movie was successfully updated.' }
-        format.json { render :show, status: :ok, location: @movie }
-      end
+      format.html { redirect_to movie_url(@movie), notice: 'Movie was successfully updated.' }
+      format.json { render :show, status: :ok, location: @movie }
+    rescue ActiveRecord::RecordNotFound
+      format.html { render :edit, status: :unprocessable_entity }
+      format.json { render json: @movie.errors, status: :unprocessable_entity }
     end
   end
 
@@ -54,13 +49,11 @@ class MoviesController < ApplicationController
   def destroy
     respond_to do |format|
       @movie = Contexts::Movies::Commands::Delete.new.call(@movie.id)
-      if @movie.errors.size > 0
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @movie.errors, status: :unprocessable_entity }
-      else
-        format.html { redirect_to movies_url, notice: 'Movie was successfully destroyed.' }
-        format.json { head :no_content }
-      end
+      format.html { redirect_to movies_url, notice: 'Movie was successfully destroyed.' }
+      format.json { head :no_content }
+    rescue ActiveRecord::RecordNotFound
+      format.html { render :new, status: :unprocessable_entity }
+      format.json { render json: @movie.errors, status: :unprocessable_entity }
     end
   end
 

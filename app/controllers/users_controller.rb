@@ -3,12 +3,14 @@ class UsersController < ApplicationController
 
   # GET /users or /users.json
   def index
-    begin
+    respond_to do |format|
       @users = Contexts::Users::Queries::UserQueries.new.all
-    rescue ActiveRecord::CatchAll
-      render json: 'records not found'
+      format.html { render :index }
+      format.json { render json: @users }
+    rescue ActiveRecord::RecordInvalid
+      format.json { render json: @users.errors, status: :unprocessable_entity }
+      format.html { render :index, status: :unprocessable_entity }
     end
-    render json: @users
   end
 
   # GET /users/1 or /users/1.json
@@ -26,13 +28,11 @@ class UsersController < ApplicationController
   def create
     respond_to do |format|
       @user = Contexts::Users::Commands::Create.new.call(params: user_params)
-      if @user.errors.size > 0
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      else
-        format.html { redirect_to user_url(@user), notice: 'User was successfully created.' }
-        format.json { render :show, status: :created, location: @user }
-      end
+      format.html { redirect_to user_url(@user), notice: 'User was successfully created.' }
+      format.json { render :show, status: :created, location: @user }
+    rescue ActiveRecord::RecordInvalid
+      format.html { render :new, status: :unprocessable_entity }
+      format.json { render json: @user.errors, status: :unprocessable_entity }
     end
   end
 
@@ -40,28 +40,23 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       @user = Contexts::Users::Commands::Update.new.call(params: user_params)
-      if @user.errors.size > 0
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      else
-        format.html { redirect_to user_url(@user), notice: 'User was successfully updated.' }
-        format.json { render :show, status: :ok, location: @user }
-      end
+      format.html { redirect_to user_url(@user), notice: 'User was successfully updated.' }
+      format.json { render :show, status: :ok, location: @user }
+    rescue ActiveRecord::RecordNotFound
+      format.html { render :new, status: :unprocessable_entity }
+      format.json { render json: @user.errors, status: :unprocessable_entity }
     end
   end
 
   # DELETE /users/1 or /users/1.json
   def destroy
-    @user = Contexts::Users::Commands::Delete.new.call(@user.id)
-
     respond_to do |format|
-      if @user.errors.size > 0
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      else
-        format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
-        format.json { head :no_content }
-      end
+      @user = Contexts::Users::Commands::Delete.new.call(@user.id)
+      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+      format.json { head :no_content }
+    rescue ActiveRecord::RecordNotFound
+      format.html { render :new, status: :unprocessable_entity }
+      format.json { render json: @user.errors, status: :unprocessable_entity }
     end
   end
 
