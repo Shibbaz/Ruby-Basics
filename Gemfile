@@ -86,4 +86,6 @@ gem 'rspec'
 gem 'rspec-core'
 gem 'rubocop-rails', require: false
 gem 'rubocop-rspec', require: false
+gem 'pry', '~> 0.13.1'
+gem 'rubocop-rails', require: false
 gem 'rubycritic', require: false
