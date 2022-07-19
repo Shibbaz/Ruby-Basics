@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Movie < ApplicationRecord
   validates :title, uniqueness: true
   self.per_page = 5

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Query Object
 module Contexts
   module Movies

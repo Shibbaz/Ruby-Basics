@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UsersController < ApplicationController
   before_action :set_user, only: %i[show edit update destroy]
 
@@ -7,6 +9,9 @@ class UsersController < ApplicationController
       @users = Contexts::Users::Queries::UserQueries.new.all(page: params[:page])
       format.html { render :index }
       format.json { render json: @users }
+    rescue ActiveRecord::RecordInvalid => e
+      format.json { render json: { error: e.message }, status: :unprocessable_entity }
+      format.html { render :index, status: :unprocessable_entity }
     end
   end
 
@@ -27,9 +32,9 @@ class UsersController < ApplicationController
       @user = Contexts::Users::Commands::Create.new.call(params: user_params)
       format.html { redirect_to user_url(@user), notice: 'User was successfully created.' }
       format.json { render json: @user, status: :created, location: @user }
-    rescue ActiveRecord::RecordInvalid
+    rescue ActiveRecord::RecordInvalid => e
       format.html { render :new, status: :unprocessable_entity }
-      format.json { render json: @user.errors, status: :unprocessable_entity }
+      format.json { render json: { error: e.message }, status: :unprocessable_entity }
     end
   end
 
@@ -39,21 +44,21 @@ class UsersController < ApplicationController
       @user = Contexts::Users::Commands::Update.new.call(user_params)
       format.html { redirect_to users_url(@user), notice: 'User was successfully updated.' }
       format.json { render json: @user, status: :ok, location: @user }
-    rescue ActiveRecord::RecordNotFound, ActiveRecord::RecordInvalid
-      format.html { render :new, status: :unprocessable_entity }
-      format.json { render json: { message: 'Cannot process' }, status: :unprocessable_entity }
+    rescue ActiveRecord::RecordNotFound, ActiveRecord::RecordInvalid => e
+      format.html { render :edit, status: :unprocessable_entity }
+      format.json { render json: { error: e.message }, status: :unprocessable_entity }
     end
   end
 
   # DELETE /users/1 or /users/1.json
   def destroy
     respond_to do |format|
-      @user = Contexts::Users::Commands::Delete.new.call(params[:id].to_i)
+      @user = Contexts::Users::Commands::Delete.new.call(params[:id])
       format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
       format.json { head :no_content }
-    rescue ActiveRecord::RecordNotFound
-      format.html { render :new, status: :unprocessable_entity }
-      format.json { render json: { "message": 'None user was deleted' }, status: :unprocessable_entity }
+    rescue ActiveRecord::RecordNotFound => e
+      format.html { render :destroy, status: :unprocessable_entity }
+      format.json { render json: { error: e.message }, status: :unprocessable_entity }
     end
   end
 

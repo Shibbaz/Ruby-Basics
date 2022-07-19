@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
@@ -55,13 +57,14 @@ end
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
+  gem 'brakeman'
   gem 'web-console'
-
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
+  gem 'rspec-rails', '~> 6.0.0.rc1'
 end
 
 group :test do
@@ -71,19 +74,10 @@ group :test do
   gem 'webdrivers'
 end
 
-group :development, :test do
-  gem 'factory_bot_rails'
-  gem 'rspec-rails', '~> 6.0.0.rc1'
-end
-
-group :development do
-  gem 'brakeman'
-end
-
+gem 'factory_bot_rails'
 gem 'faker', git: 'https://github.com/faker-ruby/faker.git', branch: 'master'
 gem 'pry', '~> 0.13.1'
 gem 'rspec'
-gem 'rspec-core'
 gem 'rubocop-rails', require: false
 gem 'rubocop-rspec', require: false
 gem 'rubycritic', require: false

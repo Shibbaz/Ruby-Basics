@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 require 'faker'
 
@@ -7,17 +9,15 @@ RSpec.describe 'Users', type: :request do
       before { create_list(:user, 10) }
 
       it 'shows 10 users' do
-        get '/users',
-            params: {}, as: :json
-        expect(JSON(response.body).size > 0).to be(true)
+        get '/users', params: {}, as: :json
+        expect(!JSON(response.body).empty?).to be(true)
       end
     end
 
     context 'when there is no records' do
       it 'shows 0 users' do
-        get '/users',
-            params: {}, as: :json
-        expect(JSON(response.body).size.equal?(0)).to be(true)
+        get '/users', params: {}, as: :json
+        expect(JSON(response.body).size).to eq(0)
       end
     end
   end
@@ -35,8 +35,7 @@ RSpec.describe 'Users', type: :request do
       end
 
       it 'creates a record' do
-        post '/users',
-             params: params, as: :json
+        post '/users', params: params, as: :json
         expect(response).to have_http_status(:created)
       end
     end
@@ -44,48 +43,37 @@ RSpec.describe 'Users', type: :request do
 
   describe 'PUT /users' do
     context 'when valid params' do
-      before { create(:user) }
+      let(:user) { create(:user) }
 
-      let(:params) { { id: User.first.id, role: 'app' } }
-
-      before do
-        put "/users/#{User.first.id}", params: params, as: :json
-        User.first.reload
-      end
+      let(:params) { { id: user.id, role: 'app' } }
 
       it 'updates a record' do
+        put "/users/#{user.id}", params: params, as: :json
         expect(response).not_to have_http_status(:unprocessable_entity)
       end
     end
 
     context 'when not valid params' do
-      before { create(:user) }
-
       let(:params) { { id: 1_000_000 } }
 
-      before do
-        put '/users/1000000', params:, as: :json
-      end
-
       it 'does not update a record' do
-        expect(JSON(response.body)['message'].empty?).to be(false)
+        put '/users/1000000', params:, as: :json
+        expect(JSON(response.body)['error'].empty?).to be(false)
       end
     end
   end
 
   describe 'DELETE /users' do
     context 'when valid params' do
-      before { create(:user) }
+      let(:user) { create(:user) }
 
       it 'deletes a record' do
-        delete "/users/#{User.first.id}", params: {}, as: :json
+        delete "/users/#{user.id}", params: {}, as: :json
         expect(response).not_to have_http_status(:unprocessable_entity)
       end
     end
 
     context 'when not valid params' do
-      before { create(:user) }
-
       let(:params) { { id: 100_000 } }
 
       it 'does not delete a record' do
