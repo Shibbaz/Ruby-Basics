@@ -15,7 +15,7 @@ class MoviesController < ApplicationController
 
   # GET /movies/new
   def new
-    @movie = Movie.new
+    @movie = Movie.create!
   end
 
   # GET /movies/1/edit
@@ -29,26 +29,26 @@ class MoviesController < ApplicationController
       format.json { render :show, status: :created, location: @movie }
     rescue ActiveRecord::RecordInvalid
       format.html { render :new, status: :unprocessable_entity }
-      format.json { render json: @movie.errors, status: :unprocessable_entity }
+      format.json { render json: { message: 'Cannot create the user' }, status: :unprocessable_entity }
     end
   end
 
   # PATCH/PUT /movies/1 or /movies/1.json
   def update
     respond_to do |format|
-      @movie = Contexts::Movies::Commands::Update.new.call(params: movie_params)
-      format.html { redirect_to movie_url(@movie), notice: 'Movie was successfully updated.' }
-      format.json { render :show, status: :ok, location: @movie }
+      @movie = Contexts::Movies::Commands::Update.new.call(movie_params)
+      format.html { redirect_to movies_url(@movie), notice: 'Movie was successfully updated.' }
+      format.json { render :show, status: :created, location: @movie }
     rescue ActiveRecord::RecordNotFound
-      format.html { render :edit, status: :unprocessable_entity }
-      format.json { render json: @movie.errors, status: :unprocessable_entity }
+      format.html { render :new, status: :unprocessable_entity }
+      format.json { render json: { message: 'Cannot update the user' }, status: :unprocessable_entity }
     end
   end
 
   # DELETE /movies/1 or /movies/1.json
   def destroy
     respond_to do |format|
-      @movie = Contexts::Movies::Commands::Delete.new.call(params[:id])
+      @movie = Contexts::Movies::Commands::Delete.new.call(params[:id].to_i)
       format.html { redirect_to movies_url, notice: 'Movie was successfully destroyed.' }
       format.json { head :no_content }
     rescue ActiveRecord::RecordNotFound
@@ -68,6 +68,6 @@ class MoviesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def movie_params
-    params.permit(:imdb_id, :title, :rating, :rank, :year, :data)
+    params.permit(:id, :imdb_id, :title, :rating, :rank, :year, :data)
   end
 end

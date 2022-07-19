@@ -39,12 +39,12 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1 or /users/1.json
   def update
     respond_to do |format|
-      @user = Contexts::Users::Commands::Update.new.call(params: user_params)
+      @user = Contexts::Users::Commands::Update.new.call(user_params)
       format.html { redirect_to users_url(@user), notice: 'User was successfully updated.' }
       format.json { render json: @user, status: :ok, location: @user }
-    rescue ActiveRecord::RecordNotFound
+    rescue ActiveRecord::RecordNotFound, ActiveRecord::RecordInvalid
       format.html { render :new, status: :unprocessable_entity }
-      format.json { render json: @user.errors, status: :unprocessable_entity }
+      format.json { render json: { message: 'Cannot process' }, status: :unprocessable_entity }
     end
   end
 
@@ -69,6 +69,6 @@ class UsersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def user_params
-    params.permit(:email, :first_name, :last_name, :role, :password)
+    params.permit(:id, :email, :first_name, :last_name, :role, :password)
   end
 end

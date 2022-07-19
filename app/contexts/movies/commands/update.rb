@@ -9,7 +9,11 @@ module Contexts
         end
 
         def call(params)
-          repository.find(params[:id]).update(params)
+          movie ||= repository.find_by(id: params[:id])
+          raise ActiveRecord::RecordNotFound if movie.nil?
+
+          movie.update(params)
+          movie.reload
         end
       end
     end
