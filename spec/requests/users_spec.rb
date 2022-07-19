@@ -24,10 +24,19 @@ RSpec.describe 'Users', type: :request do
 
   describe 'POST /users' do
     context 'when valid params' do
+      let(:params) do
+        {
+          email: Faker::Internet.email,
+          password: 'test1234',
+          first_name: Faker::Name.name,
+          last_name: Faker::Name.name,
+          role: 'test'
+        }
+      end
+
       it 'creates a record' do
         post '/users',
-             params: { email: Faker::Internet.email, password: 'test1234', first_name: Faker::Name.name,
-                       last_name: Faker::Name.name, role: 'test' }, as: :json
+             params: params, as: :json
         expect(response).to have_http_status(:created)
       end
     end
@@ -52,9 +61,10 @@ RSpec.describe 'Users', type: :request do
     context 'when not valid params' do
       before { create(:user) }
 
+      let(:params) { { id: 1_000_000 } }
+
       before do
-        @attr = {}
-        put '/users/1000000', params: { id: 1_000_000 }, as: :json
+        put '/users/1000000', params:, as: :json
       end
 
       it 'does not update a record' do
@@ -68,7 +78,7 @@ RSpec.describe 'Users', type: :request do
       before { create(:user) }
 
       it 'deletes a record' do
-        delete '/users/' + User.first.id.to_s + '.json', params: {}, as: :json
+        delete "/users/#{User.first.id}", params: {}, as: :json
         expect(response).not_to have_http_status(:unprocessable_entity)
       end
     end
@@ -76,8 +86,10 @@ RSpec.describe 'Users', type: :request do
     context 'when not valid params' do
       before { create(:user) }
 
+      let(:params) { { id: 100_000 } }
+
       it 'does not delete a record' do
-        delete '/users/100000', params: { id: 100_000 }, as: :json
+        delete '/users/100000', params:, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
