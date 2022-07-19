@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 require 'faker'
 
@@ -8,7 +10,7 @@ RSpec.describe 'Users', type: :request do
 
       it 'shows 10 users' do
         get '/users', params: {}, as: :json
-        expect(JSON(response.body).size > 0).to be(true)
+        expect(!JSON(response.body).empty?).to be(true)
       end
     end
 
@@ -45,12 +47,8 @@ RSpec.describe 'Users', type: :request do
 
       let(:params) { { id: user.id, role: 'app' } }
 
-      before do
-        put "/users/#{user.id}", params: params, as: :json
-        user.reload
-      end
-
       it 'updates a record' do
+        put "/users/#{user.id}", params: params, as: :json
         expect(response).not_to have_http_status(:unprocessable_entity)
       end
     end
@@ -58,12 +56,9 @@ RSpec.describe 'Users', type: :request do
     context 'when not valid params' do
       let(:params) { { id: 1_000_000 } }
 
-      before do
-        put '/users/1000000', params: params, as: :json
-      end
-
       it 'does not update a record' do
-        expect(JSON(response.body)['message'].empty?).to be(false)
+        put '/users/1000000', params:, as: :json
+        expect(JSON(response.body)['error'].empty?).to be(false)
       end
     end
   end

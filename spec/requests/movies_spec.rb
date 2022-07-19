@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 require 'faker'
 
@@ -8,7 +10,7 @@ RSpec.describe 'Movies', type: :request do
 
       it 'shows 10 movies' do
         get '/movies', params: {}, as: :json
-        expect(JSON(response.body).size > 0).to be(true)
+        expect(!JSON(response.body).empty?).to be(true)
       end
     end
 

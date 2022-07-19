@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MoviesController < ApplicationController
   before_action :set_movie, only: %i[show edit update destroy]
 
@@ -53,7 +55,7 @@ class MoviesController < ApplicationController
       format.json { head :no_content }
     rescue ActiveRecord::RecordNotFound => e
       format.html { render :destroy, status: :unprocessable_entity }
-      format.json { render json: { error: error.message }, status: :unprocessable_entity }
+      format.json { render json: { error: e.message }, status: :unprocessable_entity }
     end
   end
 
