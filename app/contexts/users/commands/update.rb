@@ -9,7 +9,11 @@ module Contexts
         end
 
         def call(params)
-          repository.find(params[:id]).update(params)
+          user ||= repository.find_by(id: params[:id])
+          raise ActiveRecord::RecordNotFound if user.nil?
+
+          user.update(params)
+          user.reload
         end
       end
     end

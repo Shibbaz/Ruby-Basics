@@ -6,32 +6,17 @@ RSpec.describe Contexts::Movies::Commands::Update do
     subject(:command) { described_class.new }
 
     let(:first_movie) { create(:movie) }
-    let(:params) do
-      {
-        id: first_movie.id,
-        imdb_id: first_movie.imdb_id,
-        title: first_movie.title,
-        rating: first_movie.rating,
-        rank: first_movie.rank,
-        year: first_movie.year,
-        data: nil
-      }
-    end
+    let(:params) { { id: first_movie.id, year: 1988 } }
 
     context 'when params valid' do
       it 'updates the record' do
-        old_year = params[:year]
-        params[:year] = 1998
         command.call(params)
-        new_year = Movie.first.year
-        expect(new_year).not_to eq(old_year)
+        expect(first_movie.reload.year).to eq(1988)
       end
     end
 
     context 'when params not valid' do
       it 'fails updating record' do
-        old_year = params[:year]
-        params[:year] = 1998
         params[:id] = 100
 
         expect { command.call(params) }.to raise_error(ActiveRecord::RecordNotFound)
