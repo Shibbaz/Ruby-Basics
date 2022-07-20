@@ -10,7 +10,7 @@ RSpec.describe 'Movies', type: :request do
 
       it 'shows 10 movies' do
         get '/movies', params: {}, as: :json
-        expect(!JSON(response.body).empty?).to be(true)
+        expect(JSON(response.body).size).to be(10)
         expect(response).to have_http_status(:ok)
       end
     end
