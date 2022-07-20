@@ -4,45 +4,6 @@ require 'rails_helper'
 require 'faker'
 
 RSpec.describe 'Users', type: :request do
-  describe 'GET /users' do
-    context 'when there are records' do
-      before { create_list(:user, 10) }
-
-      it 'shows 10 users' do
-        get '/users', params: {}, as: :json
-        expect(JSON(response.body).size).to be(10)
-        expect(response).to have_http_status(:ok)
-      end
-    end
-
-    context 'when there is no records' do
-      it 'shows 0 users' do
-        get '/users', params: {}, as: :json
-        expect(JSON(response.body).size).to eq(0)
-        expect(response).to have_http_status(:ok)
-      end
-    end
-  end
-
-  describe 'POST /users' do
-    context 'when valid params' do
-      let(:params) do
-        {
-          email: Faker::Internet.email,
-          password: 'test1234',
-          first_name: Faker::Name.name,
-          last_name: Faker::Name.name,
-          role: 'test'
-        }
-      end
-
-      it 'creates a record' do
-        post '/users', params: params, as: :json
-        expect(response).to have_http_status(:created)
-      end
-    end
-  end
-
   describe 'PUT /users' do
     context 'when valid params' do
       let(:user) { create(:user) }
