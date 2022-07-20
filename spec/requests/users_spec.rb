@@ -10,8 +10,8 @@ RSpec.describe 'Users', type: :request do
 
       it 'shows 10 users' do
         get '/users', params: {}, as: :json
-        expect(!JSON(response.body).empty?).to be(true)
-        expect(response).to have_http_status(200)
+        expect(JSON(response.body).size).to be(10)
+        expect(response).to have_http_status(:ok)
       end
     end
 
@@ -19,7 +19,7 @@ RSpec.describe 'Users', type: :request do
       it 'shows 0 users' do
         get '/users', params: {}, as: :json
         expect(JSON(response.body).size).to eq(0)
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(:ok)
       end
     end
   end
@@ -51,7 +51,7 @@ RSpec.describe 'Users', type: :request do
 
       it 'updates a record' do
         put "/users/#{user.id}", params: params, as: :json
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(:ok)
       end
     end
 
@@ -72,7 +72,7 @@ RSpec.describe 'Users', type: :request do
 
       it 'deletes a record' do
         delete "/users/#{user.id}", params: {}, as: :json
-        expect(response).not_to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:no_content)
       end
     end
 
