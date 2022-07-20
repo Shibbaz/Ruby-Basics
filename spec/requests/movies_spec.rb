@@ -11,6 +11,7 @@ RSpec.describe 'Movies', type: :request do
       it 'shows 10 movies' do
         get '/movies', params: {}, as: :json
         expect(!JSON(response.body).empty?).to be(true)
+        expect(response).to have_http_status(200)
       end
     end
 
@@ -18,6 +19,7 @@ RSpec.describe 'Movies', type: :request do
       it 'shows 0 movies' do
         get '/movies', params: {}, as: :json
         expect(JSON(response.body).size).to eq(0)
+        expect(response).to have_http_status(200)
       end
     end
   end
@@ -51,6 +53,7 @@ RSpec.describe 'Movies', type: :request do
       it 'does not update a record' do
         put '/movies/1000000', params: params, as: :json
         expect(JSON(response.body)['error'].empty?).to be(false)
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end
@@ -63,7 +66,7 @@ RSpec.describe 'Movies', type: :request do
 
       it 'deletes a record' do
         delete "/movies/#{movie.id}", params: params, as: :json
-        expect(response).not_to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(204)
       end
     end
 

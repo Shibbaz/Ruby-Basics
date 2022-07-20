@@ -11,6 +11,7 @@ RSpec.describe 'Users', type: :request do
       it 'shows 10 users' do
         get '/users', params: {}, as: :json
         expect(!JSON(response.body).empty?).to be(true)
+        expect(response).to have_http_status(200)
       end
     end
 
@@ -18,6 +19,7 @@ RSpec.describe 'Users', type: :request do
       it 'shows 0 users' do
         get '/users', params: {}, as: :json
         expect(JSON(response.body).size).to eq(0)
+        expect(response).to have_http_status(200)
       end
     end
   end
@@ -49,7 +51,7 @@ RSpec.describe 'Users', type: :request do
 
       it 'updates a record' do
         put "/users/#{user.id}", params: params, as: :json
-        expect(response).not_to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(200)
       end
     end
 
@@ -59,6 +61,7 @@ RSpec.describe 'Users', type: :request do
       it 'does not update a record' do
         put '/users/1000000', params:, as: :json
         expect(JSON(response.body)['error'].empty?).to be(false)
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end
