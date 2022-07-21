@@ -40,8 +40,9 @@ RSpec.describe 'Users', type: :request do
       end
 
       context 'when there is no records' do
+        subject { get '/users', params: {}, as: :html }
+
         it 'shows 0 users' do
-          get '/users', params: {}, as: :html
           expect(subject).to render_template(:index)
           expect(response).to have_http_status(:ok)
         end

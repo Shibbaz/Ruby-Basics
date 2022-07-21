@@ -29,12 +29,13 @@ RSpec.describe 'Users', type: :request do
   describe 'HTML format' do
     describe 'DELETE /users' do
       context 'when valid params' do
+        subject { delete "/users/#{user.id}", params: {}, as: :html }
+
         let(:user) { create(:user) }
 
         it 'deletes a record' do
-          delete "/users/#{user.id}", params: {}, as: :html
-          expect(response).to have_http_status(:found)
           expect(subject).to redirect_to(users_url)
+          expect(response).to have_http_status(:found)
         end
       end
 
@@ -44,7 +45,6 @@ RSpec.describe 'Users', type: :request do
         let(:params) { { id: 100_000 } }
 
         it 'does not delete a record' do
-          delete '/users/100000', params:, as: :html
           expect(subject).to render_template(:new)
           expect(response).to have_http_status(:unprocessable_entity)
         end
