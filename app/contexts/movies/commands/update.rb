@@ -11,9 +11,7 @@ module Contexts
         end
 
         def call(params)
-          movie = repository.find(params[:id])
-          movie.update!(params)
-          movie
+          repository.update(params[:id], params)
         end
       end
     end
