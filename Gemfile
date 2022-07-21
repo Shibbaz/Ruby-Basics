@@ -86,4 +86,3 @@ end
 gem 'simplecov', require: false, group: :test
 gem 'standard', group: %i[development test]
 gem 'will_paginate', '~> 3.3'
-

@@ -31,7 +31,7 @@ RSpec.describe 'Movies', type: :request do
       context 'when there are records' do
         subject { get '/movies', params: {}, as: :html }
 
-        before { create_list(:movie, 10) }
+        before { create_list(:movie, 5) }
 
         it 'shows 5 movies' do
           expect(subject).to render_template(:index)
