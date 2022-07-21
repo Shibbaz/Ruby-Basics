@@ -12,7 +12,7 @@ module Contexts
 
         def call(params)
           movie = repository.find(params[:id])
-          movie.update(params)
+          movie.update!(params)
           movie
         end
       end
