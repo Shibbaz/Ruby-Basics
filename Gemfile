@@ -73,7 +73,6 @@ group :development do
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
-  gem 'rspec-rails', '~> 6.0.0.rc1'
 end
 
 group :test do
@@ -84,12 +83,4 @@ group :test do
   gem 'simplecov', require: false
   gem 'webdrivers'
 end
-
-gem 'factory_bot_rails'
-gem 'faker', git: 'https://github.com/faker-ruby/faker.git', branch: 'master'
-gem 'pry', '~> 0.13.1'
-gem 'rspec'
-gem 'rubocop-rails', require: false
-gem 'rubocop-rspec', require: false
-gem 'rubycritic', require: false
 gem 'will_paginate', '~> 3.3'
