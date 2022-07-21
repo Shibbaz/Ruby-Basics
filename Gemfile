@@ -83,5 +83,6 @@ group :test do
   gem 'simplecov', require: false
   gem 'webdrivers'
 end
-gem 'will_paginate', '~> 3.3'
+gem 'mocha'
 gem 'standard', group: %i[development test]
+gem 'will_paginate', '~> 3.3'
