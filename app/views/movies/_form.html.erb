@@ -1,5 +1,5 @@
 <%= form_with(model: movie) do |form| %>
-  <% !if @error.empty? %>
+  <% if @error.present? %>
     <div style="color: red">
       <ul>
         <li><%= error %></li>
