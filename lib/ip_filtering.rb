@@ -8,7 +8,7 @@ class IpFiltering
 
   def call(env)
     unless IP_WHITELIST.include? env['action_dispatch.remote_ip'].calculate_ip
-      [200, {}, ['Your IP is not on IP While List!']]
+      [403, {}, ['Your IP is not on IP While List!']]
       return
     end
     @app.call(env)
