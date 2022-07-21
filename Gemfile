@@ -56,11 +56,9 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'faker', git: 'https://github.com/faker-ruby/faker.git', branch: 'master'
   gem 'pry', '~> 0.13.1'
-  gem 'pry', '~> 0.13.1'
   gem 'rspec'
   gem 'rspec-core'
   gem 'rspec-rails', '~> 6.0.0.rc1'
-  gem 'rubocop-rails', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
   gem 'rubycritic', require: false
@@ -75,6 +73,7 @@ group :development do
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
+  gem 'brakeman'
 end
 
 group :test do
@@ -83,11 +82,4 @@ group :test do
   gem 'rails-controller-testing'
   gem 'selenium-webdriver'
   gem 'webdrivers'
-end
-
-group :development, :test do
-end
-
-group :development do
-  gem 'brakeman'
 end
