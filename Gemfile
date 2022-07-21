@@ -84,3 +84,4 @@ group :test do
   gem 'webdrivers'
 end
 gem 'will_paginate', '~> 3.3'
+gem 'standard', group: %i[development test]
