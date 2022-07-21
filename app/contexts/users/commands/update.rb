@@ -11,9 +11,7 @@ module Contexts
         end
 
         def call(params)
-          user = repository.find(params[:id])
-          user.update(params)
-          user
+          repository.update(params[:id], params)
         end
       end
     end
