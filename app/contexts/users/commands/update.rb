@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Contexts
   module Users
     module Commands
@@ -9,7 +11,7 @@ module Contexts
         end
 
         def call(params)
-          repository.find(params[:id]).update(params)
+          repository.update(params[:id], params)
         end
       end
     end
