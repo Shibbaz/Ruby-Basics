@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class IpFiltering
-  IP_WHITELIST = ['::1'].freeze
+  IP_WHITELIST = ['::1', 'localhost', '127.0.0.1'].freeze
   def initialize(app)
     @app = app
   end
