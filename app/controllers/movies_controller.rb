@@ -30,6 +30,7 @@ class MoviesController < ApplicationController
       format.html { redirect_to movie_url(@movie), notice: 'Movie was successfully created.' }
       format.json { render :show, status: :created, location: @movie }
     rescue ActiveRecord::RecordInvalid => e
+      @error = e.message
       format.html { render :new, status: :unprocessable_entity }
       format.json { render json: { error: e.message }, status: :unprocessable_entity }
     end
@@ -39,9 +40,10 @@ class MoviesController < ApplicationController
   def update
     respond_to do |format|
       @movie = Contexts::Movies::Commands::Update.new.call(movie_params)
-      format.html { redirect_to movies_url(@movie), notice: 'Movie was successfully updated.' }
+      format.html { redirect_to movie_url(@movie), notice: 'Movie was successfully updated.' }
       format.json { render :show, status: :created, location: @movie }
     rescue ActiveRecord::RecordNotFound => e
+      @error = e.message
       format.html { render :edit, status: :unprocessable_entity }
       format.json { render json: { error: e.message }, status: :unprocessable_entity }
     end
@@ -54,7 +56,8 @@ class MoviesController < ApplicationController
       format.html { redirect_to movies_url, notice: 'Movie was successfully destroyed.' }
       format.json { head :no_content }
     rescue ActiveRecord::RecordNotFound => e
-      format.html { render :destroy, status: :unprocessable_entity }
+      @error = e.message
+      format.html { render :new, status: :unprocessable_entity }
       format.json { render json: { error: e.message }, status: :unprocessable_entity }
     end
   end
