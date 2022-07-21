@@ -13,7 +13,7 @@ module Contexts
         def call(params)
           user = repository.find(params[:id])
           user.update(params)
-          user.reload
+          user
         end
       end
     end

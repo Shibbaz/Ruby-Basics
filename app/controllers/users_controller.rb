@@ -10,6 +10,7 @@ class UsersController < ApplicationController
       format.html { render :index }
       format.json { render json: @users }
     rescue ActiveRecord::RecordInvalid => e
+      @error = e.message
       format.json { render json: { error: e.message }, status: :unprocessable_entity }
       format.html { render :index, status: :unprocessable_entity }
     end
@@ -33,6 +34,7 @@ class UsersController < ApplicationController
       format.html { redirect_to user_url(@user), notice: 'User was successfully created.' }
       format.json { render json: @user, status: :created, location: @user }
     rescue ActiveRecord::RecordInvalid => e
+      @error = e.message
       format.html { render :new, status: :unprocessable_entity }
       format.json { render json: { error: e.message }, status: :unprocessable_entity }
     end
@@ -42,9 +44,10 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       @user = Contexts::Users::Commands::Update.new.call(user_params)
-      format.html { redirect_to users_url(@user), notice: 'User was successfully updated.' }
+      format.html { redirect_to user_url(@user), notice: 'User was successfully updated.' }
       format.json { render json: @user, status: :ok, location: @user }
     rescue ActiveRecord::RecordNotFound, ActiveRecord::RecordInvalid => e
+      @error = e.message
       format.html { render :edit, status: :unprocessable_entity }
       format.json { render json: { error: e.message }, status: :unprocessable_entity }
     end
@@ -57,7 +60,8 @@ class UsersController < ApplicationController
       format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
       format.json { head :no_content }
     rescue ActiveRecord::RecordNotFound => e
-      format.html { render :destroy, status: :unprocessable_entity }
+      @error = e.message
+      format.html { render :new, status: :unprocessable_entity }
       format.json { render json: { error: e.message }, status: :unprocessable_entity }
     end
   end
