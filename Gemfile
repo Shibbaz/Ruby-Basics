@@ -53,8 +53,6 @@ gem 'bootsnap', require: false
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mingw x64_mingw]
-<<<<<<< HEAD
-=======
   gem 'factory_bot_rails'
   gem 'faker', git: 'https://github.com/faker-ruby/faker.git', branch: 'master'
   gem 'pry', '~> 0.13.1'
@@ -64,7 +62,6 @@ group :development, :test do
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
   gem 'rubycritic', require: false
->>>>>>> Module-5
 end
 
 group :development do
@@ -76,11 +73,7 @@ group :development do
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
-<<<<<<< HEAD
   gem 'rspec-rails', '~> 6.0.0.rc1'
-=======
-  gem 'brakeman'
->>>>>>> Module-5
 end
 
 group :test do
@@ -89,19 +82,8 @@ group :test do
   gem 'rails-controller-testing'
   gem 'selenium-webdriver'
   gem 'webdrivers'
-<<<<<<< HEAD
 end
-
-gem 'factory_bot_rails'
-gem 'faker', git: 'https://github.com/faker-ruby/faker.git', branch: 'master'
-gem 'pry', '~> 0.13.1'
-gem 'rspec'
-gem 'rubocop-rails', require: false
-gem 'rubocop-rspec', require: false
-gem 'rubycritic', require: false
 gem 'simplecov', require: false, group: :test
 gem 'standard', group: %i[development test]
 gem 'will_paginate', '~> 3.3'
-=======
-end
->>>>>>> Module-5
+

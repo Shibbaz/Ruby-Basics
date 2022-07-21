@@ -361,6 +361,7 @@ DEPENDENCIES
   rails (~> 7.0.3)
   rails-controller-testing
   rspec
+  rspec-core
   rspec-rails (~> 6.0.0.rc1)
   rubocop-rails
   rubocop-rspec
