@@ -154,7 +154,6 @@ GEM
     method_source (1.0.0)
     mini_mime (1.1.2)
     minitest (5.16.2)
-    mocha (1.14.0)
     msgpack (1.5.3)
     net-imap (0.2.3)
       digest
@@ -360,7 +359,6 @@ DEPENDENCIES
   faker!
   importmap-rails
   jbuilder
-  mocha
   pg (~> 1.1)
   pry (~> 0.13.1)
   puma (~> 5.0)
