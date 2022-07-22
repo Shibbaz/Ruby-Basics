@@ -31,7 +31,7 @@ RSpec.describe 'Users', type: :request do
       context 'when there are records' do
         subject { get '/users', params: {}, as: :html }
 
-        before { create_list(:user, 5) }
+        before { create_list(:user, 10) }
 
         it 'shows 5 users' do
           expect(subject).to render_template(:index)

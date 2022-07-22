@@ -62,6 +62,7 @@ group :development, :test do
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
   gem 'rubycritic', require: false
+  gem 'standard'
 end
 
 group :development do
@@ -81,8 +82,7 @@ group :test do
   gem 'capybara'
   gem 'rails-controller-testing'
   gem 'selenium-webdriver'
+  gem 'simplecov', require: false
   gem 'webdrivers'
 end
-gem 'simplecov', require: false, group: :test
-gem 'standard', group: %i[development test]
 gem 'will_paginate', '~> 3.3'
