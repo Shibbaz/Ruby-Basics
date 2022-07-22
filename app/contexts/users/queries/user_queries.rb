@@ -11,8 +11,8 @@ module Contexts
           @users = users
         end
 
-        def all
-          users
+        def all(page:)
+          users.paginate(page:)
         end
 
         delegate :find_by, to: :users

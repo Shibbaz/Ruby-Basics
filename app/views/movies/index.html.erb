@@ -1,14 +1,33 @@
-<p style="color: green"><%= notice %></p>
-
-<h1>Movies</h1>
-
-<div id="movies">
-  <% @movies.each do |movie| %>
-    <%= render movie %>
-    <p>
-      <%= link_to "Show this movie", movie %>
-    </p>
-  <% end %>
-</div>
-
-<%= link_to "New movie", new_movie_path %>
+<nav class="navbar navbar-dark navbar-static-top navbar-expand-md">
+    <div class="container">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"> <span class="sr-only">Toggle navigation</span>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav mr-auto">
+            <p id="notice"><%= notice %></p>
+            <h1>Listing Movies</h1>
+            <table>
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th colspan=""></th>
+                </tr>
+              </thead>
+             <tbody>
+             <%= will_paginate @movies %>
+               <% @movies.each do |movie| %>
+                 <tr>
+                   <td><%= movie.title %></td>
+                   <td><%= link_to 'Show', movie %></td>
+                   <td><%= link_to 'Edit', edit_movie_path(movie) %></td>
+                   <td><%= link_to 'Destroy', movie, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                 </tr>
+               <% end %>
+             </tbody>
+            </table>
+            <br>
+            <%= link_to 'New Movie', new_movie_path %>            
+            </ul>
+        </div>
+        
+    </div>
+</nav>

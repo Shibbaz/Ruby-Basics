@@ -6,7 +6,7 @@ class MoviesController < ApplicationController
   # GET /movies or /movies.json
   def index
     respond_to do |format|
-      @movies = Contexts::Movies::Queries::MovieQueries.new.all
+      @movies = Contexts::Movies::Queries::MovieQueries.new.all(page: params[:page])
       format.html { render :index }
       format.json { render json: @movies }
     end

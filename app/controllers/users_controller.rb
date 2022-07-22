@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   # GET /users or /users.json
   def index
     respond_to do |format|
-      @users = Contexts::Users::Queries::UserQueries.new.all
+      @users = Contexts::Users::Queries::UserQueries.new.all(page: params[:page])
       format.html { render :index }
       format.json { render json: @users }
     rescue ActiveRecord::RecordInvalid => e
